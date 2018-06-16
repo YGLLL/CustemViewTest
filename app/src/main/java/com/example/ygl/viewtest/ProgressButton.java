@@ -595,24 +595,24 @@ public class ProgressButton extends android.support.v7.widget.AppCompatTextView 
     }
 
     //*******************************针对调音助手专用方法******************************
-    public void isNoDownload(){
-        setState(STATE_NORMAL);
-        setmBackgroundColor(getResources().getColor(R.color.down_button_gray));
-        setCurrentText(getResources().getString(R.string.download));
-    }
-    public void isDownloading(float p){
-        setState(STATE_DOWNLOADING);
-        setmBackgroundColor(getResources().getColor(R.color.down_button_blue));
-        setProgressText(getResources().getString(R.string.downloading),p);
-    }
-    public void isNoUse(){
-        setState(STATE_NORMAL);
-        setmBackgroundColor(getResources().getColor(R.color.down_button_blue));
-        setCurrentText(getResources().getString(R.string.use));
-    }
-    public void isUseAlready(){
-        setState(STATE_NORMAL);
-        setmBackgroundColor(getResources().getColor(R.color.down_button_yellow));
-        setCurrentText(getResources().getString(R.string.use_already));
-    }
+//    public void isNoDownload(){
+//        setState(STATE_NORMAL);
+//        setmBackgroundColor(getResources().getColor(R.color.down_button_gray));
+//        setCurrentText(getResources().getString(R.string.download));
+//    }
+//    public void isDownloading(float p){
+//        setState(STATE_DOWNLOADING);
+//        setmBackgroundColor(getResources().getColor(R.color.down_button_blue));
+//        setProgressText(getResources().getString(R.string.downloading),p);
+//    }
+//    public void isNoUse(){
+//        setState(STATE_NORMAL);
+//        setmBackgroundColor(getResources().getColor(R.color.down_button_blue));
+//        setCurrentText(getResources().getString(R.string.use));
+//    }
+//    public void isUseAlready(){
+//        setState(STATE_NORMAL);
+//        setmBackgroundColor(getResources().getColor(R.color.down_button_yellow));
+//        setCurrentText(getResources().getString(R.string.use_already));
+//    }
 }

@@ -4,11 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <com.example.ygl.viewtest.SlenderProgressBar
+        android:layout_gravity="center"
         android:id="@+id/spb"
         android:layout_width="match_parent"
-        android:layout_height="4dp" />
-
+        android:layout_height="4dp"
+        android:background="@color/colorAccent"/>
 </LinearLayout>

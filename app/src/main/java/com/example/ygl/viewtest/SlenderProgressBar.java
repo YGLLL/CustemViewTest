@@ -1,5 +1,7 @@
 package com.example.ygl.viewtest;
 
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -22,7 +25,10 @@ public class SlenderProgressBar extends View {
 
     private Paint p;
     private Canvas c;
-    private float ratio;
+
+    private ValueAnimator mProgressAnimation;
+    private float mToProgress;
+    private float mProgress;
 
     public SlenderProgressBar(Context context) {
         this(context,null);
@@ -41,7 +47,9 @@ public class SlenderProgressBar extends View {
         PorterDuffXfermode porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP);
         p.setXfermode(porterDuffXfermode);
 
-        ratio=0;
+        mProgress=0;
+        mToProgress=0;
+        setupAnimations();
     }
 
     //在每次载入视图时执行一次
@@ -50,15 +58,41 @@ public class SlenderProgressBar extends View {
         super.onDraw(canvas);
         c=canvas;
         //画矩形
-        drawRect(ratio);
-    }
-
-    public void drawRect(float ratio){
-        //根据输入比例算出需要画的长度
-        Log.i("drawRect","drawRect:"+ratio/100);
-        float length =(ratio/100)*getMeasuredWidth();
+        float length =(mProgress/100)*getMeasuredWidth();
         //定义一个矩形
         RectF rectF=new RectF(0,0,length,getMeasuredHeight());
         c.drawRect(rectF,p);
+
+//        drawRect(mProgress);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void drawRect(float ratio){
+        //根据输入比例算出需要画的长度
+        Log.i("drawRect","drawRect:"+ratio/100);
+//        mProgress=ratio;
+//        invalidate();
+        mToProgress = ratio;
+        if (mProgressAnimation.isRunning()) {
+            mProgressAnimation.resume();
+            mProgressAnimation.start();
+        } else {
+            mProgressAnimation.start();
+        }
+    }
+
+    //设置动画
+    private void setupAnimations() {
+        //ProgressBar的动画
+        mProgressAnimation = ValueAnimator.ofFloat(0, 1).setDuration(500);
+        mProgressAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float timePercent = (float) animation.getAnimatedValue();
+                mProgress = ((mToProgress - mProgress) * timePercent + mProgress);
+                //更新视图
+                invalidate();
+            }
+        });
     }
 }
