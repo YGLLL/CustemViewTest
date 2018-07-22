@@ -24,10 +24,6 @@ import android.view.View;
 public class SlenderProgressBar extends View {
 
     private Paint p;
-    private Canvas c;
-
-    private ValueAnimator mProgressAnimation;
-    private float mToProgress;
     private float mProgress;
 
     public SlenderProgressBar(Context context) {
@@ -44,55 +40,30 @@ public class SlenderProgressBar extends View {
         //初始化画笔
         p=new Paint();
         p.setColor(Color.GREEN);
-        PorterDuffXfermode porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP);
-        p.setXfermode(porterDuffXfermode);
+//        PorterDuffXfermode porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP);
+//        p.setXfermode(porterDuffXfermode);
 
         mProgress=0;
-        mToProgress=0;
-        setupAnimations();
     }
 
     //在每次载入视图时执行一次
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        c=canvas;
         //画矩形
+        //getMeasuredWidth()获取View宽度
+        //mProgress进度，length矩形长度
         float length =(mProgress/100)*getMeasuredWidth();
         //定义一个矩形
         RectF rectF=new RectF(0,0,length,getMeasuredHeight());
-        c.drawRect(rectF,p);
+        //画
+        canvas.drawRect(rectF,p);
 
-//        drawRect(mProgress);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void drawRect(float ratio){
-        //根据输入比例算出需要画的长度
-        Log.i("drawRect","drawRect:"+ratio/100);
-//        mProgress=ratio;
-//        invalidate();
-        mToProgress = ratio;
-        if (mProgressAnimation.isRunning()) {
-            mProgressAnimation.resume();
-            mProgressAnimation.start();
-        } else {
-            mProgressAnimation.start();
-        }
-    }
-
-    //设置动画
-    private void setupAnimations() {
-        //ProgressBar的动画
-        mProgressAnimation = ValueAnimator.ofFloat(0, 1).setDuration(500);
-        mProgressAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float timePercent = (float) animation.getAnimatedValue();
-                mProgress = ((mToProgress - mProgress) * timePercent + mProgress);
-                //更新视图
-                invalidate();
-            }
-        });
+        mProgress=ratio;
+        //每次更新进度后，也同时更新view
+        invalidate();
     }
 }
